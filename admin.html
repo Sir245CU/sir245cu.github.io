@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0f6f66">
+<title>Area riservata · Ramometro</title>
+<link rel="icon" href="icons/icon-192x192.png">
+<style>
+@import url("fonts/fonts.css");
+:root{--accent:#0f6f66;--ink:#142326;--muted:#566b70;--line:#d5dee1;--bg:#f4f7f7;--surface:#fff;--tint:#e4f1ef;--neg:#c0302b}
+@media (prefers-color-scheme:dark){:root{--accent:#5cc3b8;--ink:#e6eef0;--muted:#9fb3b7;--line:#2b3b3f;--bg:#0f1719;--surface:#16211f;--tint:#1d2f2c;--neg:#ff7a72}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+main{max-width:1100px;margin:0 auto;padding:18px 16px 48px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+header img{width:40px;height:40px;border-radius:10px}
+header b{font-family:"Archivo Black",system-ui,sans-serif;font-size:1.2em}
+header .sp{flex:1}
+h1{font-size:1.35em;margin:0}
+h2{font-family:"IBM Plex Sans Condensed","IBM Plex Sans",sans-serif;font-weight:600;font-size:1.15em;color:var(--accent);margin:4px 0 8px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0}
+button,input{font:inherit}
+button{min-height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
+button:hover:not(:disabled){border-color:var(--accent);background:var(--tint)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.p{background:var(--accent);color:#fff;border-color:var(--accent)}
+button.bad{color:var(--neg)}
+input{min-height:40px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+label{display:inline-flex;flex-direction:column;gap:4px;font-size:.9em;color:var(--muted)}
+.row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.mut{color:var(--muted);font-size:.9em}
+.msg{min-height:1.4em;font-weight:600;margin:6px 0}.msg.bad{color:var(--neg)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92em}
+th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;white-space:nowrap}
+th{background:var(--tint);font-weight:600}
+td.code{font-family:ui-monospace,Menlo,monospace;font-weight:700;letter-spacing:.06em}
+td.acts{display:flex;gap:6px}
+td.acts button{min-height:34px;padding:0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column}
+.kpi b{font-size:1.6em;line-height:1.2}
+.kpi small{color:var(--muted)}
+#chart svg{width:100%;height:auto;display:block}
+#chart rect{fill:var(--accent)}
+#chart line{stroke:var(--line)}
+#chart text{fill:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<main>
+<header><img src="icons/icon-192x192.png" alt=""><b>Ramometro</b><h1>Area riservata</h1><span class="sp"></span><span class="mut" id="who"></span><button id="in" class="p">Accedi con Google</button><button id="out" hidden>Esci</button></header>
+<p class="msg" id="msg" role="status" aria-live="polite"></p>
+<div id="app" hidden>
+<section>
+<h2>Codici d’invito</h2>
+<p class="mut">Un codice abilita l’app su un dispositivo per ogni attivazione. Il sistema conta solo quante volte è stato usato: non registra chi lo usa.</p>
+<div class="row"><label>Attivazioni<input id="max" type="number" min="1" max="500" value="1" style="width:110px"></label><label>Attivabile fino al (facoltativo)<input id="exp" type="date"></label><button id="mk" class="p">Crea codice</button></div>
+<div id="codes" style="margin-top:12px"></div>
+</section>
+<section>
+<div class="row" style="justify-content:space-between;align-items:center"><h2>Statistiche anonime</h2><button id="rl">Aggiorna</button></div>
+<p class="mut">Solo totali: nessun identificativo, nessun dato personale.</p>
+<div class="kpis" id="kpi"></div>
+<h2 style="margin-top:16px">Dispositivi attivi al giorno, ultimi 30 giorni</h2>
+<div id="chart"></div>
+<h2 style="margin-top:16px">Giorno per giorno</h2>
+<div id="days"></div>
+<div class="row" style="align-items:flex-start;margin-top:12px"><div style="flex:1 1 300px"><h2>Mesi</h2><div id="months"></div></div><div style="flex:1 1 300px"><h2>Versioni</h2><div id="vers"></div></div></div>
+</section>
+</div>
+<p class="mut"><a href="./" style="color:var(--accent)">Torna a Ramometro</a> · <a href="privacy.html" style="color:var(--accent)">Informativa privacy</a> · <a href="avvertenze.html" style="color:var(--accent)">Avvertenze d’uso</a></p>
+</main>
+<script>window.__RM_FB={"apiKey": "AIzaSyAbJS0uywLJpEMcrIGnP0_t0JaekjPAHEI", "authDomain": "ramometro-eddb8.firebaseapp.com", "projectId": "ramometro-eddb8", "storageBucket": "ramometro-eddb8.firebasestorage.app", "messagingSenderId": "974149179409", "appId": "1:974149179409:web:30d7b70207a4acdd3939b0"};</script>
+<script src="admin.min.js"></script>
+</body>
+</html>

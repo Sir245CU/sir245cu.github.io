@@ -40,6 +40,28 @@ th{background:var(--tint);font-weight:600}
 td.code{font-family:ui-monospace,Menlo,monospace;font-weight:700;letter-spacing:.06em}
 td.acts{display:flex;gap:6px}
 td.acts button{min-height:34px;padding:0 10px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg label{flex-direction:row;align-items:center;gap:0;color:var(--ink);font-size:1em}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;cursor:pointer;font-weight:600;transition:background .15s}
+.seg label:hover span{background:var(--tint)}
+.seg input:checked+span{background:var(--accent);color:#fff}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:-2px}
+label.ck{flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:1em;min-height:40px}
+label.ck input{width:20px;height:20px;min-height:0;accent-color:var(--accent)}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-size:.92em}
+.bars i{display:block;height:10px;border-radius:5px;background:var(--accent)}
+details summary{cursor:pointer}
+@media (max-width:640px){
+table.rq thead{display:none}
+table.rq,table.rq tbody,table.rq tr,table.rq td{display:block;width:100%}
+table.rq tr{padding:10px 0;border-bottom:1px solid var(--line)}
+table.rq td{border:0;padding:2px 0;white-space:normal}
+table.rq td.code{font-size:1.2em}
+table.rq td[data-l]::before{content:attr(data-l) ": ";color:var(--muted)}
+table.rq td.acts{display:flex;flex-wrap:wrap;gap:8px;padding-top:8px}
+table.rq td.acts button{min-height:40px}
+}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
 .kpi{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column}
 .kpi b{font-size:1.6em;line-height:1.2}
@@ -56,7 +78,25 @@ td.acts button{min-height:34px;padding:0 10px}
 <p class="msg" id="msg" role="status" aria-live="polite"></p>
 <div id="app" hidden>
 <section>
-<h2>Codici d’invito</h2>
+<h2>Accesso</h2>
+<p class="mut">Chi apre l’app per la prima volta chiede l’accesso: tu lo approvi a mano, oppure l’app lo approva da sola. Non sai chi è: vedi solo il codice casuale della richiesta e, se ha risposto, come ha conosciuto Ramometro e per che uso.</p>
+<div class="row">
+<div class="seg" role="radiogroup" aria-label="Approvazione"><label><input type="radio" name="am" value="man"><span>Manuale</span></label><label><input type="radio" name="am" value="auto"><span>Automatica</span></label></div>
+<label class="ck"><input type="checkbox" id="open"> Nuove richieste aperte</label>
+<label>Limite al giorno per l’approvazione automatica (0 = nessuno)<input id="mxd" type="number" min="0" max="1000" value="0" style="width:110px"></label>
+<button id="sva" class="p">Salva</button>
+</div>
+<p class="mut" id="accNote"></p>
+</section>
+<section>
+<div class="row" style="justify-content:space-between;align-items:center"><h2 id="pendT">Richieste in attesa</h2><button id="okAll" hidden>Approva tutte</button></div>
+<div id="pend"></div>
+<h2 style="margin-top:16px">Accessi approvati</h2>
+<div id="appr"></div>
+<details style="margin-top:12px"><summary class="mut">Richieste rifiutate o ritirate</summary><div id="rej" style="margin-top:8px"></div></details>
+</section>
+<section>
+<h2>Codici d’invito <span class="mut" style="font-weight:400">· per chi incontri di persona o per i tuoi dispositivi</span></h2>
 <p class="mut">Un codice abilita l’app su un dispositivo per ogni attivazione. Il sistema conta solo quante volte è stato usato: non registra chi lo usa.</p>
 <div class="row"><label>Attivazioni<input id="max" type="number" min="1" max="500" value="1" style="width:110px"></label><label>Attivabile fino al (facoltativo)<input id="exp" type="date"></label><button id="mk" class="p">Crea codice</button></div>
 <div id="codes" style="margin-top:12px"></div>
@@ -69,6 +109,7 @@ td.acts button{min-height:34px;padding:0 10px}
 <div id="chart"></div>
 <h2 style="margin-top:16px">Giorno per giorno</h2>
 <div id="days"></div>
+<div class="row" style="align-items:flex-start;margin-top:12px"><div style="flex:1 1 300px"><h2>Come hanno conosciuto Ramometro</h2><div id="src"></div></div><div style="flex:1 1 300px"><h2>Per che uso</h2><div id="uso"></div></div></div>
 <div class="row" style="align-items:flex-start;margin-top:12px"><div style="flex:1 1 300px"><h2>Mesi</h2><div id="months"></div></div><div style="flex:1 1 300px"><h2>Versioni</h2><div id="vers"></div></div></div>
 </section>
 </div>

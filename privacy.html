@@ -38,33 +38,38 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}</style>
 <p class="lead">Ramometro non raccoglie dati personali. Qui trovi cosa resta sul tuo dispositivo e cosa passa online.</p>
 <section><h2>In breve</h2>
 <p><b>Ramometro non raccoglie dati personali.</b> Non chiede nome, email o telefono, non ha account e non usa cookie di profilazione né pubblicità.</p>
-<p>Calcoli, storico e impostazioni restano sul tuo dispositivo. Online passano solo la verifica del codice d’invito e alcuni contatori anonimi, senza nulla che permetta di riconoscerti.</p></section>
+<p>Calcoli, storico e impostazioni restano sul tuo dispositivo. Online passano solo la richiesta d’accesso (o la verifica di un codice d’invito) e alcuni contatori anonimi, senza nulla che permetta di riconoscerti.</p></section>
 <section><h2>Chi gestisce l’app</h2>
 <p>Ramometro è sviluppata e gestita da <b>SIR 245 Urban Mining</b>. Poiché l’app non raccoglie dati personali, non c’è un archivio di utenti a cui chiedere accesso o cancellazione. Per domande rivolgiti a chi ti ha dato il codice d’invito.</p></section>
 <section><h2>Cosa resta sul tuo dispositivo</h2>
 <p>L’app salva nella memoria del browser del tuo telefono o PC:</p>
 <ul><li>calcoli, storico, magazzino e impostazioni;</li>
-<li>l’abilitazione ottenuta con il codice d’invito e l’accettazione delle Avvertenze d’uso;</li>
+<li>l’abilitazione ottenuta (richiesta approvata o codice d’invito), il codice casuale della richiesta e l’accettazione delle Avvertenze d’uso;</li>
 <li>un promemoria che evita di contare due volte lo stesso giorno o mese nelle statistiche;</li>
 <li>una copia dell’app, per usarla anche senza rete.</li></ul>
 <p>Sono strumenti tecnici necessari al funzionamento: non richiedono consenso e nessuno li legge a distanza. Le copie di sicurezza che scarichi (Menu › I miei dati › Esporta e recupera) sono file tuoi e restano dove li salvi.</p>
 <p>Per cancellare tutto, cancella i dati del sito dalle impostazioni del browser, oppure disinstalla l’app dal telefono.</p></section>
-<section><h2>Codice d’invito</h2>
-<p>Ramometro si usa su invito. La prima volta l’app chiede il codice ricevuto da chi la gestisce e lo verifica online, una sola volta per dispositivo.</p>
-<p>Il sistema registra solo <b>quante volte</b> ogni codice è stato attivato, per rispettare il numero massimo di attivazioni. Non registra chi lo usa, da quale dispositivo né quando.</p>
-<p>Quando c’è rete, l’app controlla che il codice sia ancora valido. Se un codice viene ritirato, l’app si blocca sui dispositivi che lo usano, ma i dati già salvati restano sul dispositivo e si possono sempre esportare.</p></section>
+<section><h2>Accesso su approvazione</h2>
+<p>Alla prima apertura chiedi l’accesso dall’app. La richiesta contiene solo:</p>
+<ul><li>un codice casuale creato dall’app (per esempio K7M-Q3X), che non è collegato a te;</li>
+<li>data e ora della richiesta;</li>
+<li>se scegli di rispondere, come hai conosciuto Ramometro (passaparola, fiera o evento, internet, altro) e per che uso (privato o professionale).</li></ul>
+<p>Il gestore approva o rifiuta la richiesta, oppure l’app la approva da sola se il gestore ha scelto l’approvazione automatica. <b>Il gestore non sa chi sei</b>: se vuoi, puoi mostrargli di persona il codice della tua richiesta.</p>
+<p>In alternativa puoi usare un codice d’invito ricevuto dal gestore: il sistema conta solo <b>quante volte</b> è stato attivato, senza registrare chi lo usa.</p>
+<p>Quando c’è rete, l’app controlla che l’accesso sia ancora attivo. Se il gestore lo ritira, l’app si blocca su questo dispositivo, ma i dati restano qui e si possono sempre esportare. Le richieste restano nel database finché il gestore non le cancella.</p></section>
 <section><h2>Statistiche anonime</h2>
 <p>Per sapere quanto viene usata l’app, ogni dispositivo aggiunge 1 ad alcuni contatori comuni:</p>
 <ul><li>aperture, dispositivi attivi nel giorno e nel mese, nuove attivazioni;</li>
 <li>calcoli fatti per tipo, esiti del calcolo, salvataggi, copie del riepilogo e stampe;</li>
 <li>versione dell’app, telefono o PC, app installata o no;</li>
+<li>richieste d’accesso e risposte facoltative (come hai conosciuto Ramometro, per che uso);</li>
 <li>risposta sì o no alla domanda «Ramometro ti è utile?».</li></ul>
 <p>I contatori sono solo totali e sono conservati in Europa (Milano). Non contengono identificativi, indirizzi IP, posizione, testi o importi dei tuoi calcoli, e non si possono ricondurre a un dispositivo o a una persona.</p></section>
 <section><h2>Servizi tecnici di altri</h2>
 <p>Come ogni sito, Ramometro passa da fornitori tecnici che ricevono l’indirizzo IP del tuo dispositivo per consegnare i dati. Noi non lo riceviamo e non lo conserviamo.</p>
 <div class="tw"><table><thead><tr><th>Servizio</th><th>A cosa serve</th><th>Cosa riceve</th><th>Informativa</th></tr></thead><tbody>
 <tr><td>GitHub Pages (GitHub)</td><td>ospita il sito sir245cu.github.io</td><td>indirizzo IP, che GitHub registra per sicurezza (<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages" target="_blank" rel="noopener">dettagli</a>)</td><td><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub General Privacy Statement</a></td></tr>
-<tr><td>Google Firebase, Cloud Firestore (Google)</td><td>verifica del codice d’invito e contatori anonimi</td><td>indirizzo IP durante il collegamento</td><td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacy and Security in Firebase</a></td></tr>
+<tr><td>Google Firebase, Cloud Firestore (Google)</td><td>richieste d’accesso, codici d’invito e contatori anonimi</td><td>indirizzo IP durante il collegamento</td><td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacy and Security in Firebase</a></td></tr>
 </tbody></table></div>
 <p>I caratteri del testo e le librerie per leggere PDF ed Excel sono ospitati sul sito stesso: il browser non li scarica da altri.</p></section>
 <section><h2>Cosa non facciamo</h2>
@@ -76,7 +81,7 @@ nav{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}</style>
 <section><h2>Diritti, modifiche e data</h2>
 <p>L’app non raccoglie dati che permettano di identificarti, quindi non abbiamo dati personali da mostrarti, correggere o cancellare. Quelli sul tuo dispositivo li gestisci tu; per l’indirizzo IP valgono le informative di GitHub e Google. Puoi rivolgerti al Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">garanteprivacy.it</a>).</p>
 <p>Se cambia il modo in cui funziona l’app, aggiorniamo questa pagina e la data. Vedi anche le <a href="avvertenze.html">Avvertenze d’uso</a>.</p>
-<p class="mut">Ultimo aggiornamento: 19/11/2026.</p></section>
+<p class="mut">Ultimo aggiornamento: 20/11/2026.</p></section>
 <nav><a class="back" href="./">Torna a Ramometro</a><a class="back" href="privacy.html">Informativa privacy</a></nav>
 </main>
 </body>

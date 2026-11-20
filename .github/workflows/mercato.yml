@@ -1,0 +1,30 @@
+# Ramometro web: aggiorna borsa LME del rame, cambio euro-dollaro e titoli delle notizie.
+# Gira gratis su GitHub, nei giorni feriali alle 7:41 e alle 17:41 ora italiana (6:41 e 16:41 UTC d'inverno).
+# Scrive solo data/market.json: nessun dato personale, nessuna AI.
+name: Aggiorna borsa e notizie
+on:
+  schedule:
+    - cron: '41 6,16 * * 1-5'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mercato
+  cancel-in-progress: false
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Leggi borsa, cambio e notizie
+        run: python3 _src/tools/mercato.py data/base.json data/market.json
+      - name: Salva il file aggiornato
+        run: |
+          git config user.name "ramometro-aggiornamento"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/market.json
+          if git diff --cached --quiet; then echo "nessuna novità"; else git commit -m "Borsa e notizie $(date -u +%Y-%m-%d\ %H:%M) UTC" && git push; fi

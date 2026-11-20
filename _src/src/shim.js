@@ -229,7 +229,12 @@
 .rmLinks{display:flex;gap:16px;flex-wrap:wrap;margin:4px 0}\
 .rmL{border:0;background:none;padding:6px 0;min-height:40px;color:var(--accent,#0f6f66);font:inherit;font-weight:600;text-decoration:underline;cursor:pointer}\
 [data-ax]{pointer-events:none;opacity:.5}\
-.alsec:has([data-ax="all"])::after{content:"Nella versione web l’AI non è disponibile: usala nella versione su claude.ai.";display:block;font-size:.9em;margin:8px 4px 2px;line-height:1.4;color:var(--muted,#566b70)}';
+.alsec:has([data-ax="all"])::after{content:"Nella versione web l’AI non è disponibile: usala nella versione su claude.ai.";display:block;font-size:.9em;margin:8px 4px 2px;line-height:1.4;color:var(--muted,#566b70)}\
+.rmAlw{position:fixed;left:50%;transform:translateX(-50%);top:calc(70px + env(safe-area-inset-top,0px));z-index:2147482000;width:min(460px,calc(100% - 24px));box-sizing:border-box;background:var(--surface,#fff);color:var(--ink,#142326);border:2px solid var(--neg,#c0302b);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:12px 14px}\
+.rmAlw ul{margin:6px 0;padding-left:20px}.rmAlw li{margin:3px 0}.rmAlw small{color:var(--muted,#566b70)}\
+.rmAlw .rmRow{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}\
+.rmAiB::after{content:attr(data-rmai);display:inline-block;margin:4px 0 0 6px;padding:1px 7px;border-radius:9px;font-size:.72rem;font-weight:600;line-height:1.5;background:#fde9c8;color:#6b4300;white-space:nowrap;vertical-align:middle;text-transform:none;letter-spacing:0}\
+.alpsw,#spGo{display:none!important}';
   function el(h) { var t = D.createElement('template'); t.innerHTML = h.trim(); return t.content.firstChild; }
   function addCss() { if (D.getElementById('rmCss')) return; var s = D.createElement('style'); s.id = 'rmCss'; s.textContent = CSS; (D.head || D.documentElement).appendChild(s); }
   function wait(p, msg) { try { return W.__WAIT && W.__WAIT.track ? W.__WAIT.track(p, msg) : p; } catch (e) { return p; } }
@@ -448,6 +453,7 @@
   W.__RMWEB = { openLegal: openLegal, flush: flush, bump: bump, gate: mode };
   function mount() {
     if (D.getElementById('rmLeg')) return true;
+    if (D.querySelector('#pvMenu [data-go="leg"]')) { W.__LEGH = legalBody; return true; }
     var head = [].slice.call(D.querySelectorAll('.pms')).filter(function (x) { return /^\s*Aiuto\s*$/.test(x.textContent); })[0];
     var box = head && head.nextElementSibling; if (!box) return false;
     var b = el('<button type="button" class="pmi" id="rmLeg" aria-haspopup="dialog"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></i><span><b>Privacy e avvertenze</b><small>Nessun dato personale · ogni decisione è tua</small></span><svg class="pch" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>');
@@ -457,12 +463,70 @@
   }
   function goKey() { try { if (W.__GO && W.__GO.keys) { if (!W.__GO.keys.legal) W.__GO.keys.legal = { fn: openLegal }; return true; } } catch (e) {} return false; }
 
+
+  /* ---------- 9 · borsa e notizie aggiornate (data/market.json, scritto da un'automazione gratuita di GitHub) ---------- */
+  var MKT = null, mktP = null;
+  function market() {
+    if (!mktP) mktP = fetch('data/market.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { MKT = j && j.spot && j.asof ? j : null; return MKT; }).catch(function () { return null; });
+    return mktP;
+  }
+  W.__WEBDB = { doc: function (p) { return {
+    get: function () { if (p !== 'market/latest') return Promise.resolve({ exists: false, data: function () { return null; } });
+      return market().then(function (j) { return { exists: !!j, data: function () { return j; } }; }); },
+    set: function () { return Promise.resolve(); } }; } };
+
+  /* ---------- 10 · avvisi sul rame all'apertura (soglie di Menu › Avvisi e soglie, salvate sul dispositivo) ---------- */
+  function TT(s) { try { return W.__I18N ? W.__I18N.T(s) : s; } catch (e) { return s; } }
+  function TF(s) { var a = [].slice.call(arguments, 1), t = TT(s); return t.replace(/\{(\d+)\}/g, function (m, i) { return a[+i] === undefined ? m : a[+i]; }); }
+  function nfi(x, d) { return Number(x).toLocaleString('it-IT', { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function alertsCheck() {
+    market().then(function (j) {
+      if (!j || !Array.isArray(j.hist) || j.hist.length < 2 || !(j.usdPerEur > 0)) return;
+      var c = LS.j('cu_al') || {}, cu = c.cu || {}, src = c.src || {};
+      if (c.on === false || src.qt === false) return;
+      var DF = { d24: { on: true, v: 3 }, d7: { on: true, v: 5 }, r24: { on: true, v: 3 }, r7: { on: true, v: 5 }, lo: { on: false, v: null }, hi: { on: false, v: null } };
+      var g = function (k) { var x = cu[k] || DF[k]; return x && x.on && x.v > 0 ? +x.v : null; };
+      var h = j.hist, p0 = h[0][1], p1 = h[1][1], p5 = h[Math.min(5, h.length - 1)][1], c1 = (p0 / p1 - 1) * 100, c5 = (p0 / p5 - 1) * 100, eur = p0 / j.usdPerEur / 1000;
+      var R = [
+        ['d24', g('d24') !== null && c1 <= -g('d24'), TF('Rame in calo: {0} % in un giorno di borsa', '−' + nfi(-c1, 1))],
+        ['d7', g('d7') !== null && c5 <= -g('d7'), TF('Rame in calo: {0} % in una settimana di borsa', '−' + nfi(-c5, 1))],
+        ['lo', g('lo') !== null && eur <= g('lo'), TF('Rame sotto la tua soglia: {0} €/kg', nfi(eur, 2))],
+        ['r24', g('r24') !== null && c1 >= g('r24'), TF('Rame in salita: {0} % in un giorno di borsa', '+' + nfi(c1, 1))],
+        ['r7', g('r7') !== null && c5 >= g('r7'), TF('Rame in salita: {0} % in una settimana di borsa', '+' + nfi(c5, 1))],
+        ['hi', g('hi') !== null && eur >= g('hi'), TF('Rame sopra la tua soglia: {0} €/kg', nfi(eur, 2))]];
+      var f = LS.j('rm_alw') || {}, out = [];
+      R.forEach(function (r) { if (r[1]) { if (!f[r[0]]) { out.push(r[2]); f[r[0]] = h[0][0]; } } else delete f[r[0]]; });
+      LS.s('rm_alw', JSON.stringify(f));
+      if (!out.length) return;
+      addCss();
+      var b = el('<div class="rmAlw" role="status"><b>' + TT('Avviso sul rame') + '</b><ul>' + out.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' +
+        '<small>' + TF('Borsa LME del {0}: {1} $/t', h[0][0].split('-').reverse().join('/'), nfi(p0, 0)) + '</small>' +
+        '<div class="rmRow"><button type="button" class="rmB" data-s>' + TT('Soglie') + '</button><button type="button" class="rmB rmP" data-x>' + TT('Chiudi') + '</button></div></div>');
+      D.body.appendChild(b);
+      b.addEventListener('click', function (e) {
+        if (e.target.closest('[data-x]')) b.remove();
+        else if (e.target.closest('[data-s]')) { b.remove(); try { W.__GO('cu'); } catch (x) {} }
+      });
+    });
+  }
+
+  /* ---------- 11 · funzioni che usano l'AI: etichetta «solo su claude.ai» ---------- */
+  var AISEL = '#srBtn,#sqGo,#fsOpen,#vvKm,[data-dlkm],#imLnkGo,#imVoice,#imImgT,#rfGo';
+  function aiMark() {
+    var L = D.querySelectorAll(AISEL), t = TT('solo su claude.ai');
+    for (var i = 0; i < L.length; i++) if (L[i].getAttribute('data-rmai') !== t) { L[i].setAttribute('data-rmai', t); L[i].classList.add('rmAiB'); }
+  }
+  var aiT = 0;
+  function aiWatch() { aiMark(); try { new MutationObserver(function () { clearTimeout(aiT); aiT = setTimeout(aiMark, 120); }).observe(D.body, { childList: true, subtree: true }); } catch (e) {} }
+
   /* ---------- 8 · avvio ---------- */
   function start() {
     addCss();
     (function mm(n) { var a = mount(), g = goKey(); if (!(a && g) && n < 120) setTimeout(function () { mm(n + 1); }, 250); })(0);
     var v = LS.j('rm_inv'), q = LS.j('rm_req');
-    if (v && (v.c || v.r)) { opened(); recheck(); }
+    market().then(function (j) { if (j) [1200, 3500].forEach(function (t) { setTimeout(function () { try { W.__X5 && W.__X5.mk(); } catch (e) {} }, t); }); }); aiWatch();
+    if (v && (v.c || v.r)) { opened(); recheck(); setTimeout(alertsCheck, 2500); }
     else if (q && q.st === 'attesa') { mode('wait'); poll2(false); }
     else if (q && q.st === 'no') mode('no');
     else mode(LS.g('rm_was') ? 'off' : 'req');

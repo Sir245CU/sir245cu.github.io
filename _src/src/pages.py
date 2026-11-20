@@ -1,5 +1,7 @@
 """Pagine statiche del sito: Informativa privacy e Avvertenze d'uso (testi approvati il 19/11/2026)."""
 GEST = 'SIR 245 Urban Mining'
+NEUTRE = False   # True con l'app 6.24.0 o successiva (Margine ok, Margine basso, In perdita, Prezzo limite)
+MERCATO = True   # borsa, cambio e notizie aggiornati da GitHub Actions (data/market.json)
 DATA = '20/11/2026'
 
 PRIVACY = [
@@ -32,7 +34,7 @@ PRIVACY = [
 <tr><td>GitHub Pages (GitHub)</td><td>ospita il sito sir245cu.github.io</td><td>indirizzo IP, che GitHub registra per sicurezza (<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages" target="_blank" rel="noopener">dettagli</a>)</td><td><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub General Privacy Statement</a></td></tr>
 <tr><td>Google Firebase, Cloud Firestore (Google)</td><td>richieste d’accesso, codici d’invito e contatori anonimi</td><td>indirizzo IP durante il collegamento</td><td><a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener">Privacy and Security in Firebase</a></td></tr>
 </tbody></table></div>
-<p>I caratteri del testo e le librerie per leggere PDF ed Excel sono ospitati sul sito stesso: il browser non li scarica da altri.</p>'''),
+<p>I caratteri del testo e le librerie per leggere PDF ed Excel sono ospitati sul sito stesso: il browser non li scarica da altri. {MKT}</p>'''),
     ('Cosa non facciamo', '''<ul><li>Nessun account, nessuna email, nessun nome o numero di telefono.</li>
 <li>Nessun cookie di profilazione o di terze parti, nessuna pubblicità.</li>
 <li>Nessun Google Analytics o strumento simile.</li>
@@ -46,7 +48,7 @@ PRIVACY = [
 AVVERTENZE = [
     ('In breve', '''<p><b>Ramometro è uno strumento di calcolo.</b> Stima il rame contenuto nei cavi e il margine teorico a partire dai dati che inserisci tu.</p>
 <p><b>Non offre suggerimenti né consigli di acquisto o vendita di metalli</b>, e nemmeno consulenza finanziaria, fiscale o legale. Ogni decisione (se comprare, quanto, a che prezzo, a chi vendere) e ogni responsabilità che ne deriva restano esclusivamente tue.</p>'''),
-    ('Cosa sono i risultati', '''<p>Le scritte «Conviene», «Da trattare», «Non conviene», il «Paga al massimo», i colori e le soglie sono il <b>risultato aritmetico</b> di formule applicate ai tuoi dati e al margine minimo che hai scelto tu.</p>
+    ('Cosa sono i risultati', '''<p>Le scritte {RIS}, i colori e le soglie sono il <b>risultato aritmetico</b> di formule applicate ai tuoi dati e al margine minimo che hai scelto tu.</p>
 <p>Non sono raccomandazioni, valutazioni del materiale, perizie né offerte di acquisto. Cambiano appena cambi un dato.</p>'''),
     ('Stime, non misure', '''<p>Rese, sezioni, densità, pesi teorici e tabelle tecniche sono valori indicativi, presi da schede dei produttori e da medie. Un cavo reale può essere diverso:</p>
 <ul><li>sezioni fuori tolleranza o conduttori sottodimensionati;</li>
@@ -54,7 +56,7 @@ AVVERTENZE = [
 <li>stagnatura, schermi, armature, isolanti e riempitivi diversi da quelli previsti;</li>
 <li>umidità, sporco, olio, sfridi e perdite di lavorazione.</li></ul>
 <p>Le stime da foto e le letture automatiche, dove presenti, possono sbagliare. Pesa il materiale con una bilancia affidabile e verifica sempre di persona.</p>'''),
-    ('Prezzi e dati di mercato', '''<p>Quotazioni del rame (LME e altre borse), cambi, listini dei rottami, prezzi degli annunci e delle spedizioni vengono da <b>fonti di terzi</b>: possono essere in ritardo, incompleti o sbagliati, e cambiano di continuo. Nella versione web sono aggiornati solo alla pubblicazione dell’app.</p>
+    ('Prezzi e dati di mercato', '''<p>Quotazioni del rame (LME e altre borse), cambi, listini dei rottami, prezzi degli annunci e delle spedizioni vengono da <b>fonti di terzi</b>: possono essere in ritardo, incompleti o sbagliati, e cambiano di continuo. {AGG}</p>
 <p>Non sono offerte: il prezzo vero lo fa chi compra il tuo rame, al momento della consegna, secondo qualità, quantità e condizioni di mercato.</p>'''),
     ('Norme da rispettare, a cura tua', '''<p>L’app non controlla il rispetto delle norme. In particolare:</p>
 <ul><li><b>Rifiuti.</b> Cavi e rottami di rame possono essere rifiuti. Chi li raccoglie e trasporta come attività deve essere iscritto all’Albo nazionale gestori ambientali (art. 212 d.lgs. 152/2006; per i metalli anche la categoria 4-bis) e rispettare formulari, registri e tracciabilità.</li>
@@ -126,9 +128,19 @@ def page(title, lead, sections):
 '''
 
 
+def _fill(sections):
+    ris = ('«Margine ok», «Margine basso», «In perdita», il «Prezzo limite»' if NEUTRE else
+           '«Conviene», «Da trattare», «Non conviene», il «Paga al massimo»')
+    agg = ('Nella versione web la borsa LME, il cambio e i titoli delle notizie si aggiornano da soli due volte al giorno nei giorni feriali; il resto alla pubblicazione dell’app.'
+           if MERCATO else 'Nella versione web sono aggiornati solo alla pubblicazione dell’app.')
+    mkt = ('Borsa, cambio e notizie li scarica dalle fonti pubbliche un’automazione di GitHub, due volte al giorno: il tuo dispositivo li legge dal sito stesso, senza mandare nulla di tuo.'
+           if MERCATO else '')
+    return [(t, h.replace('{RIS}', ris).replace('{AGG}', agg).replace(' {MKT}', ' ' + mkt if mkt else '')) for t, h in sections]
+
+
 def write(out):
     import os
     open(os.path.join(out, 'privacy.html'), 'w', encoding='utf-8').write(
-        page('Informativa privacy', 'Ramometro non raccoglie dati personali. Qui trovi cosa resta sul tuo dispositivo e cosa passa online.', PRIVACY))
+        page('Informativa privacy', 'Ramometro non raccoglie dati personali. Qui trovi cosa resta sul tuo dispositivo e cosa passa online.', _fill(PRIVACY)))
     open(os.path.join(out, 'avvertenze.html'), 'w', encoding='utf-8').write(
-        page('Avvertenze d’uso e responsabilità', 'Ramometro fa stime e calcoli: non dà consigli di acquisto. Ogni decisione e responsabilità resta di chi usa l’app.', AVVERTENZE))
+        page('Avvertenze d’uso e responsabilità', 'Ramometro fa stime e calcoli: non dà consigli di acquisto. Ogni decisione e responsabilità resta di chi usa l’app.', _fill(AVVERTENZE)))

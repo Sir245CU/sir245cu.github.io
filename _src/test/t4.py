@@ -22,7 +22,7 @@ async def main():
             if 'firestore.googleapis.com' not in u: ext.append(u)
             return await r.abort()
         await c.route('**/*', route)
-        await c.add_init_script("try{localStorage.setItem('rm_inv',%r);localStorage.setItem('rm_st','{}');localStorage.setItem('cu_al',JSON.stringify({on:true,src:{qt:true},cu:{d24:{on:true,v:1},d7:{on:true,v:5},r24:{on:true,v:3},r7:{on:true,v:5},lo:{on:false,v:null},hi:{on:false,v:null}}}))}catch(e){}" % INV)
+        await c.add_init_script("try{localStorage.setItem('cu_lang','it');localStorage.setItem('rm_inv',%r);localStorage.setItem('rm_st','{}');localStorage.setItem('cu_al',JSON.stringify({on:true,src:{qt:true},cu:{d24:{on:true,v:1},d7:{on:true,v:5},r24:{on:true,v:3},r7:{on:true,v:5},lo:{on:false,v:null},hi:{on:false,v:null}}}))}catch(e){}" % INV)
         pg = await c.new_page(); errs = []
         pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL); await pg.wait_for_timeout(1500); await pg.evaluate(SPL); await pg.wait_for_timeout(4500)

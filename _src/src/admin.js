@@ -84,7 +84,7 @@ $('mk').onclick = async () => {
 
 /* ---------- statistiche ---------- */
 const COLS = [['att', 'Dispositivi attivi'], ['ap', 'Aperture'], ['rq', 'Richieste d’accesso'], ['nuovi', 'Nuovi dispositivi'], ['cm', 'Calcoli a metro'], ['cw', 'Calcoli per peso'], ['cs', 'Somme'],
-  ['vg', 'Esito «Conviene»'], ['vt', 'Esito «Da trattare»'], ['vn', 'Esito «Non conviene»'], ['sv', 'Salvataggi'], ['co', 'Copie riepilogo'], ['st', 'Stampe PDF'],
+  ['vg', 'Esito «Margine ok»'], ['vt', 'Esito «Margine basso»'], ['vn', 'Esito «In perdita»'], ['sv', 'Salvataggi'], ['co', 'Copie riepilogo'], ['st', 'Stampe PDF'],
   ['tel', 'Da telefono'], ['pc', 'Da PC'], ['pwa', 'Da app installata'], ['r7', 'Tornati dopo 7+ giorni'], ['r30', 'Tornati dopo 30+ giorni']];
 function pad(n) { return (n < 10 ? '0' : '') + n; }
 function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }

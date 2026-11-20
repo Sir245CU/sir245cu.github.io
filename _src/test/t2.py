@@ -99,6 +99,7 @@ async def ext_route(route):
 async def ctx(b, w=390, h=844, mobile=True, state=None):
     c = await b.new_context(viewport={'width': w, 'height': h}, is_mobile=mobile, has_touch=mobile, storage_state=state, accept_downloads=True)
     await c.route('**/*', ext_route)
+    await c.add_init_script("try{if(!localStorage.getItem('cu_lang'))localStorage.setItem('cu_lang','it')}catch(e){}")
     pg = await c.new_page()
     errs = []
     pg.on('pageerror', lambda e: errs.append(str(e)[:200]))

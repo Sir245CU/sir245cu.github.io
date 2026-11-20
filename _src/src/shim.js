@@ -292,7 +292,7 @@
         '<p class="rmMut" id="rmLast"></p></div>' +
       '<div id="rmVCode" hidden><label for="rmCode" class="rmMut">Codice d’invito</label>' +
         '<input id="rmCode" class="rmIn" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="9" placeholder="XXXX-XXXX"></div>' +
-      '<label class="rmChk" id="rmChkL"><input type="checkbox" id="rmAcc"><span>Ho letto e accetto le <a href="avvertenze.html" target="_blank" rel="noopener">Avvertenze d’uso</a>: Ramometro fa stime e calcoli, non dà consigli di acquisto; ogni decisione è mia. Ho letto l’<a href="privacy.html" target="_blank" rel="noopener">Informativa privacy</a>.</span></label>' +
+      '<label class="rmChk" id="rmChkL"><input type="checkbox" id="rmAcc"><span id="rmOkT">Ho letto e accetto le <a href="avvertenze.html" target="_blank" rel="noopener">Avvertenze d’uso</a>: Ramometro fa stime e calcoli, non dà consigli di acquisto; ogni decisione è mia. Ho letto l’<a href="privacy.html" target="_blank" rel="noopener">Informativa privacy</a>.</span></label>' +
       '<p class="rmMsg" id="rmGateM" role="status" aria-live="polite"></p>' +
       '<div class="rmRow">' +
         '<button type="button" class="rmB rmP" id="rmAsk" disabled>Chiedi l’accesso</button>' +
@@ -332,7 +332,7 @@
     if (m === 'req') { T.textContent = 'Benvenuto in Ramometro'; S.textContent = 'Ramometro si usa con l’approvazione di chi la gestisce. Chiedi l’accesso: non servono nome, email o telefono.'; }
     else if (m === 'wait') { T.textContent = 'Richiesta inviata'; S.textContent = 'La tua richiesta è in attesa di approvazione.'; D.getElementById('rmRc').textContent = shown(q.r); }
     else if (m === 'code') { T.textContent = 'Codice d’invito'; S.textContent = 'Se hai ricevuto un codice da chi gestisce l’app, scrivilo qui.'; }
-    else if (m === 'no') { T.textContent = 'Richiesta non approvata'; S.textContent = 'La richiesta ' + shown(q.r) + ' non è stata approvata. Puoi chiedere di nuovo più tardi o usare un codice d’invito.'; }
+    else if (m === 'no') { T.textContent = 'Richiesta non approvata'; S.textContent = 'Questa richiesta non è stata approvata. Puoi chiedere di nuovo più tardi o usare un codice d’invito.'; }
     else if (m === 'off') { T.textContent = 'Accesso ritirato'; S.textContent = 'L’accesso su questo dispositivo non è più attivo. I tuoi dati restano qui: puoi scaricarli in un file, chiedere di nuovo l’accesso o usare un codice.'; }
     say(note || '');
     upd(); gate.hidden = false;

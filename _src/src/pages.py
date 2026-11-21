@@ -2,7 +2,8 @@
 GEST = 'SIR 245 Urban Mining'
 NEUTRE = False   # True con l'app 6.24.0 o successiva (Margine ok, Margine basso, In perdita, Prezzo limite)
 MERCATO = True   # borsa, cambio e notizie aggiornati da GitHub Actions (data/market.json)
-DATA = '20/11/2026'
+DATA = '20/11/2026'        # Informativa privacy
+DATA_AVV = '21/11/2026'    # Avvertenze d'uso (sezione Browser, 1.3.0)
 
 PRIVACY = [
     ('In breve', '''<p><b>Ramometro non raccoglie dati personali.</b> Non chiede nome, email o telefono, non ha account e non usa cookie di profilazione né pubblicità.</p>
@@ -75,7 +76,7 @@ AVVERTENZE = [
     ('Accesso su approvazione', '''<p>L’uso è personale e su approvazione del gestore, che può approvare le richieste a mano o in automatico e ritirare l’accesso in qualsiasi momento, senza obbligo di motivazione. I dati sul tuo dispositivo restano tuoi e si possono esportare.</p>'''),
     ('Accettazione, modifiche e legge applicabile', f'''<p>Chiedendo l’accesso o attivando un codice d’invito dichiari di aver letto e accettato queste avvertenze. Possono cambiare: la data qui sotto indica l’ultima versione. Si applica la legge italiana.</p>
 <p>Gestore dell’app: <b>{GEST}</b>. Vedi anche l’<a href="privacy.html">Informativa privacy</a>.</p>
-<p class="mut">Ultimo aggiornamento: {DATA}.</p>'''),
+<p class="mut">Ultimo aggiornamento: {DATA_AVV}.</p>'''),
 ]
 
 CSS = '''@import url("fonts/fonts.css");

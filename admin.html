@@ -10,13 +10,13 @@
 <link rel="icon" href="icons/icon-192x192.png">
 <style>
 @import url("fonts/fonts.css");
-:root{--accent:#0f6f66;--ink:#142326;--muted:#566b70;--line:#d5dee1;--bg:#f4f7f7;--surface:#fff;--tint:#e4f1ef;--neg:#c0302b}
-@media (prefers-color-scheme:dark){:root{--accent:#5cc3b8;--ink:#e6eef0;--muted:#9fb3b7;--line:#2b3b3f;--bg:#0f1719;--surface:#16211f;--tint:#1d2f2c;--neg:#ff7a72}}
+:root{--cu:#a8481a;--accent:#0f6f66;--ink:#142326;--muted:#566b70;--line:#d5dee1;--bg:#f4f7f7;--surface:#fff;--tint:#e4f1ef;--neg:#c0302b}
+@media (prefers-color-scheme:dark){:root{--cu:#e5905a;--accent:#5cc3b8;--ink:#e6eef0;--muted:#9fb3b7;--line:#2b3b3f;--bg:#0f1719;--surface:#16211f;--tint:#1d2f2c;--neg:#ff7a72}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
 main{max-width:1100px;margin:0 auto;padding:18px 16px 48px}
 header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-header img{width:40px;height:40px;border-radius:10px}
+header .wmk{display:block;height:34px}header .wmk svg{height:100%;width:auto;display:block}
 header b{font-family:"Archivo Black",system-ui,sans-serif;font-size:1.2em}
 header .sp{flex:1}
 h1{font-size:1.35em;margin:0}
@@ -74,7 +74,7 @@ table.rq td.acts button{min-height:40px}
 </head>
 <body>
 <main>
-<header><img src="icons/icon-192x192.png" alt=""><b>Ramometro</b><h1>Area riservata</h1><span class="sp"></span><span class="mut" id="who"></span><button id="in" class="p">Accedi con Google</button><button id="out" hidden>Esci</button></header>
+<header><span class="wmk" role="img" aria-label="Ramometro"><svg viewBox="-10 -66 545 86" aria-hidden="true" focusable="false"><g stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="13"><path d="M0 0V-60H14C25-60 32-53.5 32-44S25-28 14-28H0M15-28L33 0" style="stroke:var(--cu)"/></g><g transform="translate(15 0)"><g stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-width="13"><path d="M39-23A21 21 0 1 1 39-22.9M81-46V0M103 0V-46M103-30C103-42 109-46 116-46S129-42 129-30V0M129-30C129-42 135-46 142-46S155-42 155-30V0" style="stroke:var(--cu)"/><path transform="translate(12 0)" d="M235 0V-46M235-30C235-42 241-46 248-46S261-42 261-30V0M261-30C261-42 267-46 274-46S287-42 287-30V0M299-23H341C341-37 333-46 320-46S299-36 299-23S308 0 321 0C330 0 337-4 340-10M365-62V-12C365-4 370 0 379 0M353-46H379M395 0V-46M395-28Q395-46 415-46" style="stroke:var(--ink)"/></g><g transform="translate(201 -23) scale(1.02) translate(-201 23)"><circle cx="201" cy="-23" r="35.5" fill="#000" stroke="#8a9094" stroke-width="1"/><circle cx="201" cy="-23" r="27" fill="#fff"/><circle cx="201" cy="-35.6" r="10.8" fill="#ffc400"/><path d="M201 -35.6L211.43 -32.8A10.8 10.8 0 0 1 203.8 -25.17Z" fill="#157a35"/><path d="M201 -35.6L190.57 -38.4A10.8 10.8 0 0 1 198.2 -46.03Z" fill="#157a35"/><circle cx="190.1" cy="-16.7" r="10.8" fill="#2f78c4"/><circle cx="211.9" cy="-16.7" r="10.8" fill="#8a5426"/><circle cx="201" cy="-35.6" r="6" fill="#e0833a"/><circle cx="190.1" cy="-16.7" r="6" fill="#e0833a"/><circle cx="211.9" cy="-16.7" r="6" fill="#e0833a"/></g><path d="M442.1-23A30.9 30.9 0 0 1 457.55-49.76" fill="none" stroke="#d3201f" stroke-width="9"/><path d="M457.55-49.76A30.9 30.9 0 0 1 488.45-49.76" fill="none" stroke="#f5c400" stroke-width="9"/><path d="M488.45-49.76A30.9 30.9 0 0 1 503.9-23" fill="none" stroke="#12a150" stroke-width="9"/><path d="M503.9-23A30.9 30.9 0 0 1 442.1-23" fill="none" stroke="var(--ink)" stroke-width="9"/><line x1="473" y1="-23" x2="489.7" y2="-39.7" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/></g></svg></span><h1>Area riservata</h1><span class="sp"></span><span class="mut" id="who"></span><button id="in" class="p">Accedi con Google</button><button id="out" hidden>Esci</button></header>
 <p class="msg" id="msg" role="status" aria-live="polite"></p>
 <div id="app" hidden>
 <section>

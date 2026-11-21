@@ -64,6 +64,7 @@ AVVERTENZE = [
 <li><b>Niente fuoco.</b> Bruciare i cavi per togliere la guaina è vietato e pericoloso: è il reato di combustione illecita di rifiuti (art. 256-bis d.lgs. 152/2006).</li>
 <li><b>Fisco.</b> L’app non calcola imposte, IVA né altri adempimenti. Le cessioni di rottami tra soggetti IVA seguono di regola l’inversione contabile (art. 74, commi 7 e 8, d.P.R. 633/1972). Chiedi al tuo commercialista.</li></ul>
 <p>Questo elenco non è completo e le norme cambiano: non sostituisce il parere di un professionista.</p>'''),
+    ('Browser', '''<p>Ramometro funziona con Chrome, Edge, Safari, Samsung Internet e Firefox aggiornati. Con browser più vecchi può perdere colori o funzioni. Non usarla dentro il browser interno di altre app (WhatsApp, Facebook, Instagram, Telegram) né in navigazione privata: lì dati e accesso possono andare persi.</p>'''),
     ('Sicurezza', '''<p>Tagliare e spellare cavi può causare ferite: usa attrezzi adatti, guanti e occhiali. Non lavorare mai su cavi collegati alla corrente. I tempi di spellatura dell’app sono stime.</p>'''),
     ('Nessuna garanzia', '''<p>Ramometro è fornita gratuitamente, «così com’è». Può contenere errori di calcolo o di programma, può non essere sempre disponibile e può cambiare o essere interrotta in qualsiasi momento.</p>
 <p>I dati restano sul tuo dispositivo e possono andare persi, per esempio cancellando i dati del browser: fai spesso una copia su file (Menu › I miei dati › Esporta e recupera › Scarica un file).</p>'''),

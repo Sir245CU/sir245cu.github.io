@@ -195,6 +195,12 @@
 .rmCard ol,.rmCard ul{margin:6px 0;padding-left:22px}\
 .rmCard a{color:var(--accent,#0f6f66);font-weight:600}\
 .rmMut{color:var(--muted,#566b70);font-size:.9em}\
+.rmWm{display:block;height:36px}.rmWm svg{height:100%;width:auto;display:block}\
+.rmBrwL{margin-top:6px}\
+.rmWarn{margin:8px 0;padding:10px 12px;border-radius:10px;background:#fff4d6;color:#5a4300;border:1.5px solid #e2b23a;font-weight:600}\
+.rmWarn[hidden]{display:none}\
+.rmBrwBar{position:fixed;left:8px;right:8px;top:8px;z-index:2147483000;display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:#fff4d6;color:#5a4300;border:1.5px solid #e2b23a;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.2)}\
+.rmBrwBar span{flex:1}.rmBrwBar button{min-width:36px;min-height:36px;border:0;background:none;font-size:22px;color:inherit;cursor:pointer}\
 .rmRow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}\
 .rmB{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--line,#d5dee1);background:var(--surface,#fff);color:var(--ink,#142326);font:inherit;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}\
 .rmB:hover:not(:disabled){border-color:var(--accent,#0f6f66);background:var(--tint,#e4f1ef)}\
@@ -277,11 +283,35 @@
     D.getElementById('rmAsk').disabled = !a;
     D.getElementById('rmGo').disabled = !(a && norm(D.getElementById('rmCode').value).length === 9);
   }
+  /* 6.26.0: scritta del logo presa dall'app (R maiuscola) e controllo del browser */
+  function logo() { var w = D.querySelector('h1.wm svg'); return w ? '<span class="rmWm" role="img" aria-label="Ramometro">' + w.outerHTML + '</span>' : '<img alt="" src="' + icon() + '"><b>Ramometro</b>'; }
+  var BRWM = {
+    inapp: 'Stai usando il browser interno di un’altra app (WhatsApp, Facebook, Instagram…): qui dati e accesso possono andare persi. Apri questo indirizzo in Chrome, Safari o Samsung Internet.',
+    store: 'Questo browser non permette di salvare i dati (forse navigazione privata o protezioni attive): accesso e calcoli andrebbero persi. Usa una finestra normale di Chrome, Safari o Samsung Internet.',
+    old: 'Questo browser è vecchio: alcune parti potrebbero non funzionare o perdere i colori. Aggiornalo, oppure usa Chrome, Safari o Samsung Internet aggiornati.'
+  };
+  function brw() {
+    var u = navigator.userAgent || '';
+    if (/FBAN|FBAV|FB_IAB|FBIOS|Instagram|Line\/|Telegram|WhatsApp|Snapchat|MicroMessenger|; wv\)/.test(u)) return 'inapp';
+    try { localStorage.setItem('rm_t', '1'); localStorage.removeItem('rm_t'); } catch (e) { return 'store'; }
+    var C = W.CSS; if (!(C && C.supports && C.supports('inset', '0'))) return 'old';
+    return '';
+  }
+  function brwShow() {
+    var k = brw(); if (!k) return;
+    var w = D.getElementById('rmBrwW'); if (w) { w.textContent = BRWM[k]; w.hidden = false; }
+    var g = D.getElementById('rmGate'); if (g && !g.hidden) return;
+    try { if (sessionStorage.getItem('rm_brw')) return; sessionStorage.setItem('rm_brw', '1'); } catch (e) {}
+    var b = el('<div class="rmBrwBar" role="status"><span></span><button type="button" aria-label="Chiudi">×</button></div>');
+    b.querySelector('span').textContent = BRWM[k]; b.querySelector('button').addEventListener('click', function () { b.remove(); });
+    D.body.appendChild(b);
+  }
   function say(t, cls) { var m = D.getElementById('rmGateM'); if (m) { m.textContent = t || ''; m.className = 'rmMsg' + (cls ? ' ' + cls : ''); } }
   function buildGate() {
     gate = el('<div class="rmOv" id="rmGate" role="dialog" aria-modal="true" aria-labelledby="rmGateT"><div class="rmCard">' +
-      '<div class="rmLogo"><img alt="" src="' + icon() + '"><b>Ramometro</b></div>' +
+      '<div class="rmLogo">' + logo() + '</div>' +
       '<h2 id="rmGateT">Benvenuto in Ramometro</h2>' +
+      '<p class="rmWarn" id="rmBrwW" hidden></p>' +
       '<p id="rmGateS">Ramometro si usa con l’approvazione di chi la gestisce. Chiedi l’accesso: non servono nome, email o telefono.</p>' +
       '<div id="rmVReq">' +
         '<fieldset class="rmFs"><legend>Facoltativo · Come hai conosciuto Ramometro?</legend>' + radios('rmSrc', SRC) + '</fieldset>' +
@@ -302,6 +332,7 @@
       '</div>' +
       '<p class="rmLinks"><button type="button" class="rmL" id="rmToCode">Ho già un codice</button><button type="button" class="rmL" id="rmToReq" hidden>Chiedi l’accesso</button></p>' +
       '<p class="rmMut">Non chiediamo nome, email o telefono: i tuoi dati restano su questo dispositivo.</p>' +
+      '<p class="rmMut rmBrwL">Funziona con Chrome, Edge, Safari, Samsung Internet e Firefox aggiornati. Aprila dall’icona o dal link ricevuto, non dentro WhatsApp o Facebook.</p>' +
       '</div></div>');
     D.body.appendChild(gate);
     var inp = D.getElementById('rmCode');
@@ -530,6 +561,7 @@
     else if (q && q.st === 'attesa') { mode('wait'); poll2(false); }
     else if (q && q.st === 'no') mode('no');
     else mode(LS.g('rm_was') ? 'off' : 'req');
+    setTimeout(brwShow, 600);
   }
   if (D.readyState === 'loading') D.addEventListener('DOMContentLoaded', start); else start();
   W.addEventListener('online', recheck);

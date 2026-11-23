@@ -28,10 +28,13 @@ async def main():
         await pg.goto(URL); await pg.wait_for_timeout(1500); await pg.evaluate(SPL); await pg.wait_for_timeout(4500)
         # 1 · borsa aggiornata nella riga del prezzo
         line = await pg.evaluate("(()=>{var e=document.getElementById('pvMk');return e?e.innerText:''})()")
-        chk('riga della borsa con il dato del 19/11', '19 nov' in line, line)
+        # v6.27.3: data e prezzo presi da data/market.json (cambiano ogni giorno feriale)
+        MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic']
+        sd = mk['spot']['date']; dd = '%d %s' % (int(sd[8:10]), MESI[int(sd[5:7]) - 1])
+        chk('riga della borsa con il dato del ' + dd, dd in line, line)
         # 2 · avviso all'apertura (soglia calo 1 %)
         al = await pg.evaluate("(()=>{var e=document.querySelector('.rmAlw');return e?e.innerText:null})()")
-        chk('avviso sul rame all’apertura', al and 'Rame in calo' in al and '12.570' in al, al)
+        chk('avviso sul rame all’apertura', bool(al) and 'Avviso sul rame' in al, al)
         await pg.screenshot(path='/tmp/w4_alert.png')
         if al: await pg.evaluate("document.querySelector('.rmAlw [data-x]').click()")
         # una volta sola

@@ -27,7 +27,8 @@ async def main():
         pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL); await pg.wait_for_timeout(1500); await pg.evaluate(SPL); await pg.wait_for_timeout(4500)
         # 1 · borsa aggiornata nella riga del prezzo
-        line = await pg.evaluate("(()=>{var e=document.getElementById('pvMk');return e?e.innerText:''})()")
+        # v6.27.4: la data della borsa è in «Dettagli e fonti» (chiuso): si legge il testo del riquadro
+        line = await pg.evaluate("(()=>{var e=document.getElementById('pvBar');return e?e.textContent:''})()")
         # v6.27.3: data e prezzo presi da data/market.json (cambiano ogni giorno feriale)
         MESI = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic']
         sd = mk['spot']['date']; dd = '%d %s' % (int(sd[8:10]), MESI[int(sd[5:7]) - 1])

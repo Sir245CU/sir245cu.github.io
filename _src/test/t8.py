@@ -1,4 +1,4 @@
-"""Web 6.26.3: link comodi da toccare (Rame usato, Notizie, Privacy e avvertenze, Spedizione) a 390 e 1280 px (uso: t8.py URL)."""
+"""Web 6.26.3 · 6.29.0: link comodi da toccare (Notizie, Privacy e avvertenze, Viaggio) a 390 e 1280 px (uso: t8.py URL)."""
 import asyncio, sys, json, time
 sys.path.insert(0, '/home/claude/tools')
 from playwright.async_api import async_playwright
@@ -20,10 +20,10 @@ async def main():
                 if r.request.url.startswith(URL): return await r.continue_()
                 return await r.abort()
             await c.route('**/*', route)
-            await c.add_init_script("try{if(!localStorage.getItem('__s')){localStorage.setItem('__s','1');localStorage.setItem('cu_lang','it');localStorage.setItem('rm_inv',%r);localStorage.setItem('rm_st','{}');localStorage.setItem('cu_xintro','1')}}catch(e){}" % INV)
+            await c.add_init_script("try{if(!localStorage.getItem('__s')){localStorage.setItem('__s','1');localStorage.setItem('cu_lang','it');localStorage.setItem('rm_inv',%r);localStorage.setItem('rm_st','{}');localStorage.setItem('cu_xintro','1');localStorage.setItem('cu_mods',JSON.stringify({vv:false}))}}catch(e){}" % INV)
             pg = await c.new_page(); errs = []; pg.on('pageerror', lambda e: errs.append(str(e))); ev = pg.evaluate
             await pg.goto(URL); await pg.wait_for_timeout(2500); await ev(SPL); await pg.wait_for_timeout(800)
-            for name in ('rame-usato', 'notizie', 'spedizione'):
+            for name in ('notizie', 'viaggio'):
                 _, acts, root = SC[name]
                 for a in acts: await ev(a); await pg.wait_for_timeout(300)
                 L = await ev(LAYOUT, root)

@@ -2,15 +2,15 @@
 GEST = 'SIR 245 Urban Mining'
 NEUTRE = False   # True con l'app 6.24.0 o successiva (Margine ok, Margine basso, In perdita, Prezzo limite)
 MERCATO = True   # borsa, cambio e notizie aggiornati da GitHub Actions (data/market.json)
-DATA = '20/11/2026'        # Informativa privacy
-DATA_AVV = '21/11/2026'    # Avvertenze d'uso (sezione Browser, 1.3.0)
+DATA = '25/11/2026'        # Informativa privacy (6.29.0: tolto «magazzino»; prima 20/11/2026)
+DATA_AVV = '25/11/2026'    # Avvertenze d'uso (6.29.0: tolti spedizioni e Filo; prima 21/11/2026, sezione Browser)
 
 PRIVACY = [
     ('In breve', '''<p><b>Ramometro non raccoglie dati personali.</b> Non chiede nome, email o telefono, non ha account e non usa cookie di profilazione né pubblicità.</p>
 <p>Calcoli, storico e impostazioni restano sul tuo dispositivo. Online passano solo la richiesta d’accesso (o la verifica di un codice d’invito) e alcuni contatori anonimi, senza nulla che permetta di riconoscerti.</p>'''),
     ('Chi gestisce l’app', f'''<p>Ramometro è sviluppata e gestita da <b>{GEST}</b>. Poiché l’app non raccoglie dati personali, non c’è un archivio di utenti a cui chiedere accesso o cancellazione. Per domande rivolgiti a chi ti ha dato il codice d’invito.</p>'''),
     ('Cosa resta sul tuo dispositivo', '''<p>L’app salva nella memoria del browser del tuo telefono o PC:</p>
-<ul><li>calcoli, storico, magazzino e impostazioni;</li>
+<ul><li>calcoli, storico e impostazioni;</li>
 <li>l’abilitazione ottenuta (richiesta approvata o codice d’invito), il codice casuale della richiesta e l’accettazione delle Avvertenze d’uso;</li>
 <li>un promemoria che evita di contare due volte lo stesso giorno o mese nelle statistiche;</li>
 <li>una copia dell’app, per usarla anche senza rete.</li></ul>
@@ -57,7 +57,7 @@ AVVERTENZE = [
 <li>stagnatura, schermi, armature, isolanti e riempitivi diversi da quelli previsti;</li>
 <li>umidità, sporco, olio, sfridi e perdite di lavorazione.</li></ul>
 <p>Le stime da foto e le letture automatiche, dove presenti, possono sbagliare. Pesa il materiale con una bilancia affidabile e verifica sempre di persona.</p>'''),
-    ('Prezzi e dati di mercato', '''<p>Quotazioni del rame (LME e altre borse), cambi, listini dei rottami, prezzi degli annunci e delle spedizioni vengono da <b>fonti di terzi</b>: possono essere in ritardo, incompleti o sbagliati, e cambiano di continuo. {AGG}</p>
+    ('Prezzi e dati di mercato', '''<p>Quotazioni del rame (LME e altre borse), cambi, listini dei rottami e prezzi degli annunci vengono da <b>fonti di terzi</b>: possono essere in ritardo, incompleti o sbagliati, e cambiano di continuo. {AGG}</p>
 <p>Non sono offerte: il prezzo vero lo fa chi compra il tuo rame, al momento della consegna, secondo qualità, quantità e condizioni di mercato.</p>'''),
     ('Norme da rispettare, a cura tua', '''<p>L’app non controlla il rispetto delle norme. In particolare:</p>
 <ul><li><b>Rifiuti.</b> Cavi e rottami di rame possono essere rifiuti. Chi li raccoglie e trasporta come attività deve essere iscritto all’Albo nazionale gestori ambientali (art. 212 d.lgs. 152/2006; per i metalli anche la categoria 4-bis) e rispettare formulari, registri e tracciabilità.</li>
@@ -72,7 +72,7 @@ AVVERTENZE = [
     ('Limitazione di responsabilità', f'''<p>Nei limiti consentiti dalla legge, {GEST} non risponde di perdite, mancati guadagni o altri danni, diretti o indiretti, derivanti dall’uso dell’app o dall’affidamento sui suoi risultati.</p>
 <p>Restano salvi i casi di dolo o colpa grave (art. 1229 c.c.) e i diritti che la legge riconosce ai consumatori e che non si possono escludere.</p>'''),
     ('Link e marchi di terzi', '''<p>L’app contiene collegamenti a siti di annunci, listini, schede tecniche e notizie. Non siamo affiliati a questi siti e non rispondiamo dei loro contenuti. Nomi e marchi appartengono ai rispettivi titolari.</p>'''),
-    ('Intelligenza artificiale', '''<p>Nella versione su claude.ai alcune funzioni usano l’AI (lettura di foto e annunci, prezzi dal web, km, Filo). Danno stime che possono essere sbagliate e consumano crediti dell’account Claude: controlla sempre il risultato. Nella versione web l’AI non c’è.</p>'''),
+    ('Intelligenza artificiale', '''<p>Nella versione su claude.ai alcune funzioni usano l’AI (lettura di foto e annunci, prezzi dal web, km). Danno stime che possono essere sbagliate e consumano crediti dell’account Claude: controlla sempre il risultato. Nella versione web l’AI non c’è.</p>'''),
     ('Accesso su approvazione', '''<p>L’uso è personale e su approvazione del gestore, che può approvare le richieste a mano o in automatico e ritirare l’accesso in qualsiasi momento, senza obbligo di motivazione. I dati sul tuo dispositivo restano tuoi e si possono esportare.</p>'''),
     ('Accettazione, modifiche e legge applicabile', f'''<p>Chiedendo l’accesso o attivando un codice d’invito dichiari di aver letto e accettato queste avvertenze. Possono cambiare: la data qui sotto indica l’ultima versione. Si applica la legge italiana.</p>
 <p>Gestore dell’app: <b>{GEST}</b>. Vedi anche l’<a href="privacy.html">Informativa privacy</a>.</p>

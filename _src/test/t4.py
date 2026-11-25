@@ -35,7 +35,7 @@ async def main():
         chk('riga della borsa con il dato del ' + dd, dd in line, line)
         # 2 · avviso all'apertura (soglia calo 1 %)
         al = await pg.evaluate("(()=>{var e=document.querySelector('.rmAlw');return e?e.innerText:null})()")
-        chk('avviso sul rame all’apertura', bool(al) and 'Avviso sul rame' in al, al)
+        chk('6.29.0: nessun avviso sul rame all’apertura («Avvisi e soglie» tolto)', not al, al)
         await pg.screenshot(path='/tmp/w4_alert.png')
         if al: await pg.evaluate("document.querySelector('.rmAlw [data-x]').click()")
         # una volta sola
@@ -60,7 +60,7 @@ async def main():
         await pg.evaluate("document.querySelector('#pvMenu [data-go=\"al\"]').click()"); await pg.wait_for_timeout(400)
         t = await pg.evaluate("document.getElementById('alBd').innerText")
         chk('pagina avvisi senza notifiche, mail e compito', 'Nella versione web non ci sono notifiche' in t and '@' not in t and 'Periodicità' not in t, t[:200])
-        mods = await pg.evaluate("(()=>{var h=document.documentElement.innerHTML;return [h.indexOf('usa crediti AI'),h.search(/[A-Za-z0-9._-]+@gmail\\.com/)]})()")
+        mods = await pg.evaluate("(()=>{var h=document.documentElement.innerHTML,d=document.documentElement.cloneNode(true);[].forEach.call(d.querySelectorAll('script'),function(x){x.remove()});return [d.innerHTML.indexOf('usa crediti AI'),h.search(/[A-Za-z0-9._-]+@gmail\\.com/)]})()")   # 6.30.0: il dizionario (negli script) ha la riga «usa crediti AI»
         chk('nessuna mail del gestore e moduli AI segnati', mods[1] < 0 and mods[0] < 0, mods)
         await pg.screenshot(path='/tmp/w4_al.png')
         chk('nessun errore di programma', not errs, errs[:3])

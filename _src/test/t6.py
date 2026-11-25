@@ -36,11 +36,13 @@ async def main():
         await ev("document.getElementById('rmToCode').click()"); await pg.wait_for_timeout(400)
         chk('logo anche nella pagina del codice', await ev("!!document.querySelector('#rmGate .rmWm svg')&&!!document.getElementById('rmCode').getClientRects().length"))
         chk('nessun errore', not errs, errs[:3]); await c.close()
-        # tedesco
-        c, pg, errs = await ctx(b, "try{localStorage.setItem('cu_lang','de')}catch(e){}"); ev = pg.evaluate
+        # 6.30.0: chi aveva il tedesco passa all'inglese
+        c, pg, errs = await ctx(b, "try{if(!sessionStorage.getItem('x')){sessionStorage.setItem('x','1');localStorage.setItem('cu_lang','de');localStorage.setItem('cu_tr_de','{}')}}catch(e){}"); ev = pg.evaluate
         await pg.goto(URL); await pg.wait_for_timeout(2000)
         t = await ev("document.getElementById('rmGate').innerText")
-        chk('riga sui browser in tedesco', 'Funktioniert mit aktuellem Chrome' in t, t[-300:]); await c.close()
+        chk('tedesco → inglese: riga sui browser in inglese', 'Works with up-to-date Chrome' in t, t[-300:])
+        st = await ev("[localStorage.getItem('cu_lang'),localStorage.getItem('cu_tr_de'),document.documentElement.lang]")
+        chk('lingua salvata in inglese, traduzioni tedesche cancellate', st == ['en', None, 'en'], st); await c.close()
         # browser interno di un'altra app
         ua = 'Mozilla/5.0 (Linux; Android 13; SM-A536B Build/TP1A; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/440.0.0.0;]'
         c, pg, errs = await ctx(b, "try{localStorage.setItem('cu_lang','it')}catch(e){}", ua); ev = pg.evaluate

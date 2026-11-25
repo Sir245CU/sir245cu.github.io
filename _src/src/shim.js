@@ -515,6 +515,7 @@
     market().then(function (j) {
       if (!j || !Array.isArray(j.hist) || j.hist.length < 2 || !(j.usdPerEur > 0)) return;
       var c = LS.j('cu_al') || {}, cu = c.cu || {}, src = c.src || {};
+      if (W.__MOD && W.__MOD.on && !W.__MOD.on('al')) return;   /* 6.29.0: «Avvisi e soglie» tolto */
       if (c.on === false || src.qt === false) return;
       var DF = { d24: { on: true, v: 3 }, d7: { on: true, v: 5 }, r24: { on: true, v: 3 }, r7: { on: true, v: 5 }, lo: { on: false, v: null }, hi: { on: false, v: null } };
       var g = function (k) { var x = cu[k] || DF[k]; return x && x.on && x.v > 0 ? +x.v : null; };
